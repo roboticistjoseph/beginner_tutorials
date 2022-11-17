@@ -14,17 +14,21 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-
+find_package(example_interfaces REQUIRED)
 
 add_executable(publisher_node src/publisher_node.cpp include/publisher_node.hpp)
-ament_target_dependencies(publisher_node rclcpp std_msgs)
+ament_target_dependencies(publisher_node rclcpp std_msgs example_interfaces)
 
 add_executable(subscriber_node src/subscriber_node.cpp include/subscriber_node.hpp)
 ament_target_dependencies(subscriber_node rclcpp std_msgs)
 
+add_executable(client_node src/client_node.cpp)
+ament_target_dependencies(client_node rclcpp std_msgs example_interfaces)
+
 install(TARGETS
   publisher_node
   subscriber_node
+  client_node
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
