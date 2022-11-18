@@ -56,7 +56,8 @@ Publisher::Publisher()
        * Create publisher with buffer size of 10 and frequency = 2 hz
        */
        auto topicName = "topic";
-       publisher_ = this->create_publisher<std_msgs::msg::String>(topicName, 10);
+       publisher_ =
+        this->create_publisher<std_msgs::msg::String>(topicName, 10);
        auto topicCallbackPtr = std::bind(&Publisher::timer_callback, this);
        timer_ = this->create_wall_timer(500ms, topicCallbackPtr);
 
@@ -65,7 +66,8 @@ Publisher::Publisher()
         */
        auto serviceName = "add_two_ints_v2";
        auto serviceCallbackPtr = std::bind(&Publisher::add, this, _1, _2);
-       m_service_ = create_service <ADDTWOINTS>(serviceName, serviceCallbackPtr);
+       m_service_ =
+        create_service <ADDTWOINTS>(serviceName, serviceCallbackPtr);
 }
 
 void Publisher::timer_callback() {
@@ -73,27 +75,39 @@ void Publisher::timer_callback() {
     auto message = std_msgs::msg::String();
     message.data = "Developer- Joseph:  "
              + std::to_string(count_++);
-    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
+    RCLCPP_INFO(this->get_logger(),
+                 "Publishing: '%s'", message.data.c_str());
 
     // Publish the message
     publisher_->publish(message);
 
-    // Logger level- Debug (Debug messages detail the entire step-by-step process of the system execution.)
-    RCLCPP_DEBUG_STREAM(this->get_logger(), "Logger level: Debug, Publisher processing");
-    // Logger level- Info (Info messages indicate event and status updates that serve as a
-    // visual verification that the system is running as expected.)
-    RCLCPP_INFO_STREAM(this->get_logger(), "Logger level: Info, Publishing:" << message.data.c_str());
+    // Logger level- Debug
+    // (Debug messages detail the entire step-by-step process
+    // of the system execution.)
+    RCLCPP_DEBUG_STREAM(this->get_logger(),
+                         "Logger level: Debug, Publisher processing");
 
-    // Logger level - Warning (Warn messages indicate unexpected activity or non-ideal
-    // results that might represent a deeper issue, but don’t harm functionality outright.)
-    if (count_ > 5) {
-      RCLCPP_WARN_STREAM(this->get_logger(), "Logger level: Warning, Too many Publising cycles");
+    // Logger level- Info
+    // (Info messages indicate event and status updates that serve as a
+    // visual verification that the system is running as expected.)
+    RCLCPP_INFO_STREAM(this->get_logger(),
+               "Logger level: Info, Publishing:" << message.data.c_str());
+
+    // Logger level - Warning
+    // (Warn messages indicate unexpected activity or non-ideal results
+    // that might represent a deeper issue,
+    // but don’t harm functionality outright.)
+    if (count_ > 3) {
+      RCLCPP_WARN_STREAM(this->get_logger(),
+                       "Logger level: Warning, Too many Publising cycles");
       }
 
-    // Logger level - Fatal (Fatal messages indicate the system is going to terminate
+    // Logger level - Fatal
+    // (Fatal messages indicate the system is going to terminate
     // to try to protect itself from detriment.)
-    if (count_ > 10) {
-      RCLCPP_FATAL_STREAM(this->get_logger(), "Logger level: Fatal, Fatal error due to overuse");
+    if (count_ > 7) {
+      RCLCPP_FATAL_STREAM(this->get_logger(),
+                       "Logger level: Fatal, Fatal error due to overuse");
     }
 }
 
@@ -102,14 +116,19 @@ void Publisher::add(REQUEST request,
     response->sum = request->a + request->b;
 
     // Logger level- Info
-    RCLCPP_INFO(this->get_logger(), "Incoming request\na: %ld b: %ld", request->a, request->b);
-    RCLCPP_INFO(this->get_logger(), "sending back response: [%ld]", (long int) response->sum);
+    RCLCPP_INFO(this->get_logger(),
+             "Incoming request\na: ", request->a, request->b);
+    RCLCPP_INFO(this->get_logger(),
+               "sending back response: ", (int64_t) response->sum);
 
     if (response->sum != request->a + request->b) {
-      // Logger level - Error (Error messages indicate significant issues that won’t
-      // necessarily damage the system, but are preventing it from functioning properly.)
-      RCLCPP_ERROR_STREAM(this->get_logger(), "Logger level: Error, Incorrect Calculation"
-                          << std::to_string(invalid++));
+      // Logger level - Error
+      // (Error messages indicate significant issues that won’t
+      // necessarily damage the system,
+      // but are preventing it from functioning properly.)
+      RCLCPP_ERROR_STREAM(this->get_logger(),
+                           "Logger level: Error, Incorrect Calculation"
+                          << std::to_string(response->sum));
       return;
   }
 }

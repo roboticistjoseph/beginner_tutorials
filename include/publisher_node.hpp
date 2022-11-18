@@ -47,10 +47,11 @@ using PUBLISHER = rclcpp::Publisher<STRING>::SharedPtr;
 using TIMER     = rclcpp::TimerBase::SharedPtr;
 
 // service types
-using SERVICE    = rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr;
+using SERVICE = rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr;
 using ADDTWOINTS = example_interfaces::srv::AddTwoInts;
-using REQUEST    = const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request>;
-using RESPOSE    = std::shared_ptr<example_interfaces::srv::AddTwoInts::Response>;
+using REQUEST =
+   const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request>;
+using RESPOSE = std::shared_ptr<example_interfaces::srv::AddTwoInts::Response>;
 
 /**
  * @brief Publisher class.
@@ -75,10 +76,37 @@ class Publisher : public rclcpp::Node {
   //////////////////////////
   // Member Functions:
   //////////////////////////
+
+  /**
+   * @brief Timer Callback
+   * 
+   */
   void timer_callback();
+
+  /**
+   * @brief Function to add two numbers from request
+   * 
+   * @param request 
+   * @param response 
+   */
   void add(REQUEST request, RESPOSE response);
+
+  /**
+   * @brief Timer variable
+   * 
+   */
   rclcpp::TimerBase::SharedPtr timer_;
+
+  /**
+   * @brief publisher variable
+   * 
+   */
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+
+  /**
+   * @brief counter variable
+   * 
+   */
   size_t count_;
 };
 

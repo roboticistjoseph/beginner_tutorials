@@ -48,7 +48,18 @@ class Subscriber : public rclcpp::Node {
   //////////////////////////
   // Member Functions:
   //////////////////////////
+
+  /**
+   * @brief callback function
+   * 
+   * @param msg 
+   */
   void topic_callback(const std_msgs::msg::String::SharedPtr msg) const;
+
+  /**
+   * @brief Subscriber variable
+   * 
+   */
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
 };
 
