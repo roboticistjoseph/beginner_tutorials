@@ -24,23 +24,23 @@ The exercise includes the following
 * ```rclcpp```
 * ```std_msgs```
 
-## Steps to build this package
+## Commands to build this package
 ```
 git clone https://github.com/roboticistjoseph/beginner_tutorials/
 cd beginner_tutorials
 colcon build
 ```
 
-## Steps to run the nodes
+## Commands to run the nodes
 Publisher-Server Terminal:
 ```
-. install/setup.bash
+cd beginner_tutorials && . install/setup.bash
 ros2 run beginner_tutorials publisher_node 
 ```
 
 Client Terminal:
 ```
-. install/setup.bash
+cd beginner_tutorials && . install/setup.bash
 ros2 service call /add_two_ints_v2 example_interfaces/srv/AddTwoInts "{a: 1, b: 2}"
 ```
 
@@ -76,8 +76,67 @@ response:
 example_interfaces.srv.AddTwoInts_Response(sum=3)
 
 ```
+
+### Logging Levels
+
+<pre><font color="#4E9A06"><b>joseph@jkatak</b></font>:<font color="#3465A4"><b>~/beginner_tutorials</b></font>$ ros2 run beginner_tutorials publisher_node 
+[INFO] [1668725753.965350804] [publisher]: Publishing: &apos;Developer- Joseph:  0&apos;
+[INFO] [1668725753.965833352] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  0
+[INFO] [1668725754.465347022] [publisher]: Publishing: &apos;Developer- Joseph:  1&apos;
+[INFO] [1668725754.465566642] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  1
+[INFO] [1668725754.965364998] [publisher]: Publishing: &apos;Developer- Joseph:  2&apos;
+[INFO] [1668725754.965579624] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  2
+[INFO] [1668725755.465385939] [publisher]: Publishing: &apos;Developer- Joseph:  3&apos;
+[INFO] [1668725755.465604558] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  3
+<font color="#C4A000">[WARN] [1668725755.465669556] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+[INFO] [1668725755.965402930] [publisher]: Publishing: &apos;Developer- Joseph:  4&apos;
+[INFO] [1668725755.965618115] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  4
+<font color="#C4A000">[WARN] [1668725755.965681029] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+[INFO] [1668725756.465410277] [publisher]: Publishing: &apos;Developer- Joseph:  5&apos;
+[INFO] [1668725756.465678144] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  5
+<font color="#C4A000">[WARN] [1668725756.465744670] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+[INFO] [1668725756.965438963] [publisher]: Publishing: &apos;Developer- Joseph:  6&apos;
+[INFO] [1668725756.965654878] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  6
+<font color="#C4A000">[WARN] [1668725756.965716958] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+[INFO] [1668725757.465370031] [publisher]: Publishing: &apos;Developer- Joseph:  7&apos;
+[INFO] [1668725757.465589177] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  7
+<font color="#C4A000">[WARN] [1668725757.465652714] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+<font color="#CC0000">[FATAL] [1668725757.465699010] [publisher]: Logger level: Fatal, Fatal error due to overuse</font>
+[INFO] [1668725757.965204002] [publisher]: Publishing: &apos;Developer- Joseph:  8&apos;
+[INFO] [1668725757.965326375] [publisher]: Logger level: Info, Publishing:Developer- Joseph:  8
+<font color="#C4A000">[WARN] [1668725757.965352503] [publisher]: Logger level: Warning, Too many Publising cycles</font>
+<font color="#CC0000">[FATAL] [1668725757.965369198] [publisher]: Logger level: Fatal, Fatal error due to overuse</font>
+</pre>
+
+
 ### Screenshot of rqt_console
+```rqt_console``` helps monitor logged messages.
+```
+ros2 run rqt_console rqt_console
+```
 ![rqt_console](/results/rqt_console.png) 
+
+## Commands to run Launch file
+```
+cd beginner_tutorials && . install/setup.bash
+ros2 launch nodes_launch.yaml
+```
+
+## Commands to Moniter Parameter response
+```
+ros2 param list
+ros2 param set /param_helper_node my_parameter universe
+```
+
+## Monitering Parameter response output
+```
+joseph@jkatak:~/beginner_tutorials/launch$ ros2 launch node_launcher.yaml
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [minimal_param_node-1]: process started with pid [44475]
+[minimal_param_node-1] [INFO] [1668651106.180145554] [minimal_param_node]: Hello world!
+[minimal_param_node-1] [INFO] [1668651107.180334288] [minimal_param_node]: Hello world!
+[minimal_param_node-1] [INFO] [1668651108.180327606] [minimal_param_node]: Hello universe!
+```
 
 ## Code Analysis
 Running 'cpplint' and 'cppcheck' to check for coding style and detect bugs.
