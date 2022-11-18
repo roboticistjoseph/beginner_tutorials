@@ -25,10 +25,14 @@ ament_target_dependencies(subscriber_node rclcpp std_msgs)
 add_executable(client_node src/client_node.cpp)
 ament_target_dependencies(client_node rclcpp std_msgs example_interfaces)
 
+add_executable(param_helper_node src/parameter_helper.cpp)
+ament_target_dependencies(param_helper_node rclcpp std_msgs)
+
 install(TARGETS
   publisher_node
   subscriber_node
   client_node
+  param_helper_node
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
