@@ -34,12 +34,13 @@ ParameterHelper::ParameterHelper(): Node("parameter_helper") {
   }
 
 void ParameterHelper::timer_callback() {
-    std::string my_param =
-    this->get_parameter("my_parameter").get_parameter_value().get<std::string>();
+  std::string my_param = this->
+    get_parameter("my_parameter").get_parameter_value().get<std::string>();
 
-    RCLCPP_INFO(this->get_logger(), "Hello %s!", my_param.c_str());
-    std::vector<rclcpp::Parameter> all_new_parameters{rclcpp::Parameter("my_parameter", "world")};
-    this->set_parameters(all_new_parameters);
+  RCLCPP_INFO(this->get_logger(), "Hello %s!", my_param.c_str());
+  std::vector<rclcpp::Parameter>
+    all_new_parameters{rclcpp::Parameter("my_parameter", "world")};
+  this->set_parameters(all_new_parameters);
 }
 
 int main(int argc, char ** argv) {

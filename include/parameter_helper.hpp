@@ -52,7 +52,11 @@ class ParameterHelper : public rclcpp::Node {
   void timer_callback();
 
  private:
-  rclcpp::TimerBase::SharedPtr timer_;  // timer variable
+ /**
+  * @brief timer variable
+  * 
+  */
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 #endif  // BEGINNER_TUTORIALS_INCLUDE_PARAMETER_HELPER_HPP_
