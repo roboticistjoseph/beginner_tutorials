@@ -21,33 +21,7 @@
     // limitations under the License.
   */
 
-/*
- * A program combining publisher and service server.
- *
- * How to run:
- *  1.) Start the publisher and service server.  (terminal 1)
- *     ros2 run beginner_tutorials publisher_node
- *
- *  2.) Send a service request. (terminal 2)
- *     ros2 service call /add_two_ints_v2 srv/AddTwoInts "{a: 1, b: 2}"
- *
- * Expected output:
- *  terminal 1 :
- *    [minimal_publisher]: Publishing: Hello, world! 846
- *    [minimal_publisher]: Publishing: Hello, world! 847
- *    [minimal_publisher]: Incoming request
- *    a: 1 b: 2
- *    [minimal_publisher]: sending back response: [3]
- *    [minimal_publisher]: Publishing: Hello, world! 848
- *    [minimal_publisher]: Publishing: Hello, world! 849
- *
- *  terminal 2 :
- *    requester: making request: example_interfaces.srv.AddTwoInts_Request(a=1, b=2)
- *    
- *    response:
- *    example_interfaces.srv.AddTwoInts_Response(sum=3)
- */
-
+// header files
 #include "../include/publisher_node.hpp"
 
 Publisher::Publisher()
@@ -68,6 +42,49 @@ Publisher::Publisher()
        auto serviceCallbackPtr = std::bind(&Publisher::add, this, _1, _2);
        m_service_ =
         create_service <ADDTWOINTS>(serviceName, serviceCallbackPtr);
+
+      // publish_message_ = "Custom String Message for Printing";
+       /**
+        * @brief tf broadcaster
+        * 
+        */
+       tf_static_broadcaster_ = std::make_shared<
+                tf2_ros::StaticTransformBroadcaster>(this);
+
+       /**
+        * @brief obect for transformation matrix
+        * 
+        */
+       geometry_msgs::msg::TransformStamped t;
+
+       // starting clock
+       t.header.stamp = this->get_clock()->now();
+       // parent frame
+       t.header.frame_id = "world";
+       // child frame
+       t.child_frame_id = "talk";
+
+       // Translation along x, y and z axis
+       t.transform.translation.x = 0.6;
+       t.transform.translation.y = 0.1;
+       t.transform.translation.z = 0.9;
+
+       // Converting Euler angles to Quaternion along XYZ
+       tf2::Quaternion q;
+       q.setRPY(0.6, 0.1, 0.9);
+       t.transform.rotation.x = q.x();
+       t.transform.rotation.y = q.y();
+       t.transform.rotation.z = q.z();
+       t.transform.rotation.w = q.w();
+
+      //  // Rotation along x, y and z axis
+      //  t.transform.rotation.x = 0.0523491;
+      //  t.transform.rotation.y = 0.0473595;
+      //  t.transform.rotation.z = 0.0523491;
+      //  t.transform.rotation.w = 0.9961306;
+
+       // broadcast
+       tf_static_broadcaster_->sendTransform(t);
 }
 
 void Publisher::timer_callback() {
@@ -75,11 +92,24 @@ void Publisher::timer_callback() {
     auto message = std_msgs::msg::String();
     message.data = "Developer- Joseph:  "
              + std::to_string(count_++);
+
+    // Argument/Parameter for setting publishing message
+    auto custom_message = rcl_interfaces::msg::ParameterDescriptor();
+    custom_message.description = "Name to be published: ";
+    this->declare_parameter("custom_message", 2.0, custom_message);
+    auto custom_msg = this->get_parameter("custom_message")
+                .get_parameter_value().get<std_msgs::msg::String()>;
+
+
     RCLCPP_INFO(this->get_logger(),
                  "Publishing: '%s'", message.data.c_str());
 
+    RCLCPP_INFO(this->get_logger(),
+                 "Publishing: '%s'", custom_msg.data.c_str());
+
     // Publish the message
     publisher_->publish(message);
+    publisher_->publish(custom_msg);
 
     // Logger level- Debug
     // (Debug messages detail the entire step-by-step process
