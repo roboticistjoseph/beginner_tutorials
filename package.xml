@@ -3,7 +3,8 @@
 <package format="3">
   <name>beginner_tutorials</name>
   <version>0.0.0</version>
-  <description>Examples of Publisher and Subscriber nodes using ROS 2</description>
+
+  <description>Development of ROS 2 tf2, unit testing, bag files</description>
   <maintainer email="jkatak73@terpmail.umd.edu">joseph</maintainer>
   <license>Apache License 2.0</license>
 
@@ -11,11 +12,20 @@
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>example_interfaces</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <build_type>ament_cmake</build_type>
+  <build_type>ament_cmake</build_type>
   </export>
 </package>
