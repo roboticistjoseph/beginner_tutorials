@@ -5,14 +5,6 @@ launch:
     name: "custom_message"
     default: "Developer2.0"
 
-# - node:
-#     pkg: "beginner_tutorials"
-#     exec: "param_helper_node"
-#     param:
-#     -
-#       name: "my_parameter"
-#       value: "$(var my_parameter)"
-
 # Nodes
 - node:
     pkg: "beginner_tutorials"
@@ -31,3 +23,6 @@ launch:
 - node:
     pkg: "beginner_tutorials"
     exec: "client_node"
+
+- executable:
+    cmd: 'ros2 bag record -o tutorial_bag -a'
